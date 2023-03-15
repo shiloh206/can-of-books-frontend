@@ -32,6 +32,16 @@ Finish time: 1400
 
 Actual time needed to complete: 1.5hrs
 
+Name of feature: modal form
+
+Estimate of time needed to complete: 5hr
+
+Start time: 1330
+
+Finish time: 20:30
+
+Actual time needed to complete: 7hrs
+
 
 
 ## Credit and Collaborations
