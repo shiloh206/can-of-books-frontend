@@ -8,8 +8,8 @@ class Header extends React.Component {
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="">
         <Navbar.Brand>Can of Books</Navbar.Brand>
-        <NavItem><Link to="/" className="nav-link">Home</Link></NavItem>
-        <NavItem><Link to="/about" className="nav-link">About Us</Link></NavItem>
+        <NavItem><Link to="/" className="nav-link">Home </Link></NavItem>
+        <NavItem><Link to="/about" className="nav-link"> About Us</Link></NavItem>
         {/* PLACEHOLDER: render a navigation link to the about page */}
       </Navbar>
     )
