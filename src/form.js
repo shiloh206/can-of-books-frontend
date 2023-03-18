@@ -23,7 +23,7 @@ class BookForm extends React.Component {
 //       status: e.target.status.value,
 //       description: e.target.description.value,
 //     };
-//   };
+//   };`  
 
 handleBookSubmit = (e) => {
     e.preventDefault();
@@ -80,7 +80,7 @@ handleBookSubmit = (e) => {
                 />
               </Form.Group>
 
-              <Button variant="primary" type="submit">
+              <Button onClick={this.props.handleClose} variant="primary" type="submit">
                 Submit
               </Button>
             </Form>
