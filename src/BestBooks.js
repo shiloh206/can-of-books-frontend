@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import Carousel from "react-bootstrap/Carousel";
-import Form from './form';
-import Button from './form';
+import Form from './Form';
+import Button from 'react-bootstrap/Button';
 
 
 class BestBooks extends React.Component {
@@ -10,6 +10,8 @@ class BestBooks extends React.Component {
     super(props);
     this.state = {
       books: [],
+      isModalOpen: false,
+
     };
   }
   
@@ -26,7 +28,6 @@ class BestBooks extends React.Component {
         noBook: false,
       });
     } catch (error) {
-      console.log(error.response.data);
     }
   };
   handleOpenModal = () => {
@@ -34,26 +35,63 @@ class BestBooks extends React.Component {
   };
 
   handleCloseModal = () => {
+    console.log('handle close test')
     this.setState({ isModalOpen: false });
   };
-  // handleSyncBooks = (sync) =>
+
   createBook = async (book) => {
+    console.log(book)
     try {
-      let result = await axios.post(`${process.env.REACT_APP_SERVER}/books`, book);
-      this.setState((prevState) => ({
-        books: [...prevState.books, result.data],
+      // let url = await axios.post(`${process.env.REACT_APP_SERVER}/books`, book);
+      const config = {
+        method: "post", 
+        baseURL: process.env.REACT_APP_SERVER,
+        url: "/books/", 
+        data: book
+      }
+
+      const results = await axios(config);
+      console.log(results);
+      console.log(results.data)
+
+      this.setState({
+        books: [...this.state.books, this.url.data],
         isModalOpen: false,
-      }));
+      });
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.message);
+      this.setState({
+        error: error
+      })
     }
   };
+
+
+
+  deleteBook = async (id) => {
+    try {
+      let url = `${process.env.REACT_APP_SERVER}/books/${id}`;
+      await axios.delete(url);
+      let updatedBooks = this.state.books.filter(book => book._id !== id);
+      this.setState({
+        books: updatedBooks
+      });
+    } catch (error) {
+      console.log('error msg: ', error.response.data)
+    }
+  }
+
+// UPDATE = (book) => {
+//   isUpdateModal: true,
+//   bookUpdate: book
+// }
+
 
   render() {
     // console.log(this.state)
     /* TODO: render all the books in a Carousel */
     let booksCarousel = this.state.books.map((book) => {
-      console.log(book);
+
       return (
         <Carousel.Item key={book._id}>
           <img
@@ -64,6 +102,7 @@ class BestBooks extends React.Component {
           <Carousel.Caption>
             <h2> {book.title}</h2>
             <p>{book.description}</p>
+            <Button onClick={() => this.deleteBook(book._id)} variant="outline-light">Delete this book</Button>
           </Carousel.Caption>
         </Carousel.Item>
       );
@@ -76,8 +115,11 @@ class BestBooks extends React.Component {
         {this.state.books.length ? (
           <>
             <Carousel>{booksCarousel}</Carousel>
-            <Button onClick={this.handleOpenModal}>Add Book</Button>
+            <Button
+             onClick={this.handleOpenModal}
+             >Add Book</Button>
             <Form
+            onClick={this.handleCloseModal}
               addBook={this.createBook}
               show={this.state.isModalOpen}
               handleClose={this.handleCloseModal}
